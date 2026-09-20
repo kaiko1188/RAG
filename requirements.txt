@@ -1,0 +1,25 @@
+# PDF processing
+PyMuPDF
+
+# Vector database
+chromadb
+
+# Environment variables
+python-dotenv
+
+# Local Embedding
+sentence-transformers
+
+# LangChain core
+langchain
+langchain-core
+
+# Ollama integration
+langchain-ollama
+
+# OpenAI backend (optional)
+langchain-openai
+
+# Numerical / ML dependencies
+numpy
+scikit-learn
