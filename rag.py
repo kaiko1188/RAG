@@ -1,5 +1,4 @@
 
-Rag · PY
 # -*- coding: utf-8 -*-
 """
 rag.py
@@ -576,7 +575,10 @@ def build_citation_block(
     """
  
     if not chunks:
-        return ""
+        return (
+            "\n\n【確認した資料】\n"
+            "・該当する文書・ページを取得できませんでした"
+        )
  
     seen: set[tuple[str, str]] = set()
     entries: list[str] = []
@@ -690,11 +692,11 @@ def answer(
  
     if not chunks:
  
-        return (
+        text = (
             "提供された資料からは判断できません。"
-            "（検索結果0件）",
-            [],
+            "（検索結果0件）"
         )
+        return text + build_citation_block([], text), []
  
  
     # -----------------------------------------------------------------------

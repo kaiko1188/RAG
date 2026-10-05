@@ -69,6 +69,11 @@ LOCAL_EMBEDDING_MODEL = os.getenv(
     "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
 )
 
+LOCAL_EMBEDDING_DEVICE = os.getenv(
+    "LOCAL_EMBEDDING_DEVICE",
+    "auto",
+).lower()
+
 
 # ---------------------------------------------------------------------------
 # Ollama設定
@@ -115,12 +120,22 @@ class LocalSentenceTransformerEmbeddings:
 
         self.model_name = model_name or LOCAL_EMBEDDING_MODEL
 
+        import torch
+
+        if LOCAL_EMBEDDING_DEVICE == "auto":
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+        else:
+            device = LOCAL_EMBEDDING_DEVICE
+
         print(
             f"[Embedding] Sentence Transformersを読み込みます: "
-            f"{self.model_name}"
+            f"{self.model_name} (device={device})"
         )
 
-        self.model = SentenceTransformer(self.model_name)
+        self.model = SentenceTransformer(
+            self.model_name,
+            device=device,
+        )
 
     def embed_documents(
         self,
